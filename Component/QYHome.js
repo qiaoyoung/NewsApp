@@ -32,7 +32,10 @@ export default class QYHome extends Component {
     return (
       <ListView
         dataSource={this.state.dataSource}
-        renderRow={this.renderRow.bind(this)}
+        {/*下面两种方法 都可以绑定this*/}
+        // renderRow={this.renderRow.bind(this)}
+        renderRow={(e)=>this.renderRow(e)}
+
         style={styles.listViewStyle}
       />
     );
@@ -43,7 +46,8 @@ export default class QYHome extends Component {
     return(
       <TouchableOpacity
         activeOpacity={0.5}
-        onPress={this.pushToView.bind(this)}
+        // 只需处理data,e用于绑定this
+        onPress={(e)=>this._pushToView(e,rowData)}
       >
         <View style={styles.cellStyle}>
           {/*上部分*/}
@@ -60,20 +64,22 @@ export default class QYHome extends Component {
     )
   }
 
-  pushToView() {
+  // 只需处理data,e用于绑定this
+  _pushToView(e,data) {
     this.props.navigator.push({
       component:QYCellView,
       params:{
+        data:data,
         title:'点我返回上一页'
       }
     })
   }
   componentDidMount() {
     // 发送网络请求
-    this.loadData();
+    this._loadData();
   }
   // 网络请求的发送
-  loadData() {
+  _loadData() {
    return fetch(this.state.base_url)
      .then((response)=>response.json())
      .then((responseJson)=>{

@@ -17,16 +17,19 @@ export default class QYCellView extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <TouchableOpacity onPress={this.popView.bind(this)}>
+        <TouchableOpacity onPress={(e)=>this._popView(e)}>
           <Text style={styles.instructions}>
             {this.props.title}
+          </Text>
+          <Text style={styles.instructions}>
+            {this.props.data.text}
           </Text>
         </TouchableOpacity>
       </View>
     );
   }
   
-  popView() {
+  _popView() {
     this.props.navigator.pop();
   }
 
@@ -42,7 +45,7 @@ const styles = StyleSheet.create({
   instructions: {
     textAlign: 'center',
     color: '#333333',
-    marginBottom: 5,
+    margin:5,
   },
 });
 
